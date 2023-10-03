@@ -1,0 +1,34 @@
+///100 days of RTL Challenge///
+
+///Abilash P///
+
+///3 bit multiplier///
+
+module bit3_multiplier(a_in, b_in, y);
+
+input  [2:0]a_in, b_in;
+output [5:0]y;
+
+wire [8:0]t;
+wire s1;
+wire c1,c2,c3,c4;
+
+assign t[0] = a_in[0] & b_in[0];
+assign t[1] = a_in[1] & b_in[0];
+assign t[2] = a_in[0] & b_in[1];
+assign t[3] = a_in[2] & b_in[0];
+assign t[4] = a_in[1] & b_in[1];
+assign t[5] = a_in[0] & b_in[2];
+assign t[6] = a_in[2] & b_in[1];
+assign t[7] = a_in[1] & b_in[2];
+assign t[8] = a_in[2] & b_in[2];
+
+assign y[0] = t[0];
+half_adder HA0 (.a_in(t[1]), .b_in(t[2]), .sum(y[1]),  .carry(c1));
+half_adder HA1 (.a_in(t[3]), .b_in(t[4]), .sum(s1),    .carry(c2));
+full_adder FA0 (.a_in(t[5]), .b_in(s1),   .c_in(c1),   .sum(y[2]), .carry(c3));
+full_adder FA1 (.a_in(t[6]), .b_in(t[7]), .c_in(c2),   .sum(s2),   .carry(c4));
+half_adder HA2 (.a_in(s2),   .b_in(c3),   .sum(y[3]),  .carry(c5));
+full_adder FA2 (.a_in(t[8]), .b_in(c4),   .c_in(c5),   .sum(y[4]), .carry(y[5]));
+
+endmodule
